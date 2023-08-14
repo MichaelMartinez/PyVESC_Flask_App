@@ -1,68 +1,71 @@
-
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Get VESC Values</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='mvp.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#getValueBtn').click(function() {
-                var selectedMethod = $('#valueSelector').val();
-                $.post("/get_values", {method_name: selectedMethod}, function(data) {
-                    $('#vescValueDisplay').text(data.value);
-                });
-            });
-            
-            $('#increaseFont').click(function() {
-                var currentSize = parseFloat($('#vescValueDisplay').css('font-size'));
-                $('#vescValueDisplay').css('font-size', currentSize + 2);
-            });
-
-            $('#decreaseFont').click(function() {
-                var currentSize = parseFloat($('#vescValueDisplay').css('font-size'));
-                if (currentSize > 2) {
-                    $('#vescValueDisplay').css('font-size', currentSize - 2);
-                }
-            });
-
-            $('#toggleBold').click(function() {
-                var fontWeight = $('#vescValueDisplay').css('font-weight');
-                if (fontWeight == '400' || fontWeight == 'normal') {
-                    $('#vescValueDisplay').css('font-weight', 'bold');
-                } else {
-                    $('#vescValueDisplay').css('font-weight', 'normal');
-                }
-            });
-
-            $('#colorPicker').on('input', function() {
-                var selectedColor = $(this).val();
-                $('#vescValueDisplay').css('color', selectedColor);
-            });
+      $(document).ready(function () {
+        $("#getValueBtn").click(function () {
+          var selectedMethod = $("#valueSelector").val();
+          $.post(
+            "/get_values",
+            { method_name: selectedMethod },
+            function (data) {
+              $("#vescValueDisplay").text(data.value);
+            }
+          );
         });
+
+        $("#increaseFont").click(function () {
+          var currentSize = parseFloat($("#vescValueDisplay").css("font-size"));
+          $("#vescValueDisplay").css("font-size", currentSize + 2);
+        });
+
+        $("#decreaseFont").click(function () {
+          var currentSize = parseFloat($("#vescValueDisplay").css("font-size"));
+          if (currentSize > 2) {
+            $("#vescValueDisplay").css("font-size", currentSize - 2);
+          }
+        });
+
+        $("#toggleBold").click(function () {
+          var fontWeight = $("#vescValueDisplay").css("font-weight");
+          if (fontWeight == "400" || fontWeight == "normal") {
+            $("#vescValueDisplay").css("font-weight", "bold");
+          } else {
+            $("#vescValueDisplay").css("font-weight", "normal");
+          }
+        });
+
+        $("#colorPicker").on("input", function () {
+          var selectedColor = $(this).val();
+          $("#vescValueDisplay").css("color", selectedColor);
+        });
+      });
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <header><h1>Select VESC Value to Retrieve</h1></header>
     <main>
-        <form>
-            <label for="valueSelector">Choose a value:</label>
-            <select id="valueSelector">
-                <option value="get_rpm">RPM</option>
-                <option value="get_current">Current</option>
-                <option value="get_duty_cycle">Duty Cycle</option>
-                <option value="get_voltage">Voltage</option>
-            </select>
-            <button id="getValueBtn">Get Value</button>
-        </form>
-        <article>
-            <p id="vescValueDisplay"></p>
-            <button id="increaseFont">Increase Font Size</button>
-            <button id="decreaseFont">Decrease Font Size</button>
-            <button id="toggleBold">Toggle Bold</button>
-            <label for="colorPicker">Font Color:</label>
-            <input type="color" id="colorPicker">
-        </article>
+      <form>
+        <label for="valueSelector">Choose a value:</label>
+        <select id="valueSelector">
+          <option value="get_rpm">RPM</option>
+          <option value="get_current">Current</option>
+          <option value="get_duty_cycle">Duty Cycle</option>
+          <option value="get_voltage">Voltage</option>
+        </select>
+        <button id="getValueBtn">Get Value</button>
+      </form>
+      <article>
+        <p id="vescValueDisplay"></p>
+        <button id="increaseFont">Increase Font Size</button>
+        <button id="decreaseFont">Decrease Font Size</button>
+        <button id="toggleBold">Toggle Bold</button>
+        <label for="colorPicker">Font Color:</label>
+        <input type="color" id="colorPicker" />
+      </article>
     </main>
-</body>
+  </body>
 </html>

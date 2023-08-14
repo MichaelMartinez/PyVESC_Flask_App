@@ -1,44 +1,47 @@
-
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Set VESC Parameters</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='mvp.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#setParametersBtn').click(function() {
-                var formData = {
-                    'set_rpm': $('#set_rpm').val(),
-                    'set_current': $('#set_current').val(),
-                    'set_duty_cycle': $('#set_duty_cycle').val(),
-                    'set_servo': $('#set_servo').val()
-                };
-                $.post("/set_parameters", formData, function(data) {
-                    alert(data.message);
-                });
-            });
+      $(document).ready(function () {
+        $("#setParametersBtn").click(function () {
+          var formData = {
+            set_rpm: $("#set_rpm").val(),
+            set_current: $("#set_current").val(),
+            set_duty_cycle: $("#set_duty_cycle").val(),
+            set_servo: $("#set_servo").val(),
+          };
+          $.post("/set_parameters", formData, function (data) {
+            alert(data.message);
+          });
         });
+      });
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <header><h1>Set VESC Parameters</h1></header>
     <main>
-        <form>
-            <label for="set_rpm">Set RPM:</label>
-            <input type="text" id="set_rpm" name="set_rpm"><br><br>
+      <form>
+        <label for="set_rpm">Set RPM:</label>
+        <input type="text" id="set_rpm" name="set_rpm" /><br /><br />
 
-            <label for="set_current">Set Current:</label>
-            <input type="text" id="set_current" name="set_current"><br><br>
+        <label for="set_current">Set Current:</label>
+        <input type="text" id="set_current" name="set_current" /><br /><br />
 
-            <label for="set_duty_cycle">Set Duty Cycle:</label>
-            <input type="text" id="set_duty_cycle" name="set_duty_cycle"><br><br>
+        <label for="set_duty_cycle">Set Duty Cycle:</label>
+        <input
+          type="text"
+          id="set_duty_cycle"
+          name="set_duty_cycle"
+        /><br /><br />
 
-            <label for="set_servo">Set Servo:</label>
-            <input type="text" id="set_servo" name="set_servo"><br><br>
+        <label for="set_servo">Set Servo:</label>
+        <input type="text" id="set_servo" name="set_servo" /><br /><br />
 
-            <button id="setParametersBtn">Set Parameters</button>
-        </form>
+        <button id="setParametersBtn">Set Parameters</button>
+      </form>
     </main>
-</body>
+  </body>
 </html>
