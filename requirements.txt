@@ -3,3 +3,5 @@ crccheck>=0.6
 pyserial
 pythoncrc
 git+https://github.com/LiamBindle/PyVESC
+Flask-SocketIO
+eventlet

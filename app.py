@@ -1,15 +1,20 @@
 
+from flask_socketio import SocketIO, emit
+import eventlet
+
 from flask import Flask, render_template, request, jsonify
 import pyvesc
 import serial
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 serialport = 'COM3'  # Placeholder. Update this with your VESC's serial port
 
 @app.route('/')
 def index():
-    return "Welcome to the VESC Flask App! Choose 'Get VESC Values' or 'Set VESC Parameters'."
+    return render_template('home.html')
+
 
 @app.route('/get_values', methods=['GET', 'POST'])
 def get_values():
@@ -41,5 +46,33 @@ def set_parameters_route():
     
     return render_template('set_parameters.html')
 
+def vesc_data_thread():
+    while True:
+        with serial.Serial(serialport, baudrate=115200, timeout=0.05) as ser:
+            ser.write(pyvesc.encode_request(pyvesc.GetValues))
+            if ser.in_waiting > 61:
+                (response, consumed) = pyvesc.decode(ser.read(61))
+                data_map = {
+                    "get_rpm": response.rpm,
+                    "get_current": response.current_motor,
+                    "get_duty_cycle": response.duty_cycle,
+                    "get_voltage": response.v_in
+                }
+                socketio.emit('vesc_data', data_map)
+        eventlet.sleep(1)  # Read data every second
+
+@socketio.event
+def connect():
+    print('Client connected')
+    global thread
+    if not thread.is_alive():
+        thread = socketio.start_background_task(vesc_data_thread)
+
+@socketio.event
+def disconnect():
+    print('Client disconnected')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+
+

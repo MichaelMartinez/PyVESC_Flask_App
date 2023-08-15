@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VESC Flask App</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body style="font-size: 16px; color: black">
+    <h1>Welcome to the VESC Flask App!</h1>
+
+    <p><a href="/get_values">Get VESC Values</a></p>
+    <p><a href="/set_parameters">Set VESC Parameters</a></p>
+
+    <!-- JavaScript to adjust font size and color -->
+    <script>
+      $(document).ready(function () {
+        $("#font_size").change(function () {
+          $("body").css("font-size", $(this).val() + "px");
+        });
+
+        $("#font_color").change(function () {
+          $("body").css("color", $(this).val());
+        });
+      });
+    </script>
+
+    <!-- Controls to adjust font size and color -->
+    <p>
+      Adjust Font Size:
+      <input type="range" id="font_size" min="10" max="30" value="16" />
+    </p>
+    <p>
+      Font Color:
+      <select id="font_color">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+      </select>
+    </p>
+
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect(
+        "http://" + document.domain + ":" + location.port
+      );
+
+      socket.on("vesc_data", function (data) {
+        document.getElementById("vesc_data_display").innerHTML = JSON.stringify(
+          data,
+          null,
+          2
+        );
+      });
+    </script>
+
+    <h2>VESC Data:</h2>
+    <pre id="vesc_data_display"></pre>
+  </body>
+</html>
