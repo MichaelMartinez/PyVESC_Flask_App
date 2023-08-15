@@ -40,13 +40,46 @@ Now, open your web browser and navigate to `http://127.0.0.1:5000/` to access th
 
 ## Setup and Run on Raspberry Pi
 
-> *Note*: conda is probably a bit to heavy to run on a raspberry pi zero, I suggest using anything that is built in when using SBC's.
+> *Note:* conda DOES NOT work with Raspberry Pi zero.
 
-1. Follow the directions in steps 2 - 5
-2. `virtualenv pyvesc_flask`
-3. `source pyvesc_flask/bin/activate`
-4. `pip install -r requirements.txt`
-5. `python app.py`
+We need to install a virtual environment manager:
+
+```shell
+pip3 install virtualenv virtualenvwrapper
+nano ~/.bashrc
+```
+
+Append the following lines to the bottom of the file:
+
+```shell
+#Virtualenvwrapper settings:
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_VIRTUALENV=~/.local/bin/virtualenv
+source ~/.local/bin/virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_ENV_BIN_DIR=bin
+```
+
+> *Note:* that if you use an older version of Raspbian, virtualenvwrapper is installed in /usr/local/bin/ instead so change lines 4 and 5 above accordingly.
+
+Now reload `.bashrc`:
+
+```shell
+source ~/.bashrc
+```
+
+Now create a virtualenv
+
+```shell
+mkvirtualenv pyvesc_flask
+workon pyvesc_flask
+```
+
+When you are done, simply type:
+
+```shell
+deactivate
+```
 
 ---
 
